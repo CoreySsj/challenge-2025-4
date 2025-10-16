@@ -3,7 +3,8 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      # Las variables AWS_ACCOUNT_ID y AWS_REGION son inyectadas por el entorno de CodeBuild.
+      # Las variables AWS_ACCOUNT_ID y AWS_REGION son inyectadas por el entorno de CodeBuild 
+      # (configurado desde los secrets de GitHub: AWS_ACCOUNT_ID_MARCO y AWS_REGION_MARCO).
       # --- CONFIGURA LAS VARIABLES DE TU ENTORNO AQUÍ ---
       - export EKS_CLUSTER_NAME="mycluster"
       - export ECR_BACKEND_REPO="usermgmt-marco"
@@ -51,8 +52,9 @@ phases:
       
       # Actualizar ambos despliegues en Kubernetes
       - echo "Actualizando el despliegue del backend en EKS..."
-      - kubectl set image deployment/$K8S_BACKEND_DEPLOYMENT $K8S_BACKEND_CONTAINER_NAME=$BACKEND_URI:$IMAGE_TAG --namespace=default
+      - kubectl set image deployment/$K8S_BACKEND_DEPLOYMENT $K8S_BACKEND_CONTAINER_NAME=$BACKEND_URI:$IMAGE_TAG --namespace=myapp
       - echo "Actualizando el despliegue del frontend en EKS..."
-      - kubectl set image deployment/$K8S_FRONTEND_DEPLOYMENT $K8S_FRONTEND_CONTAINER_NAME=$FRONTEND_URI:$IMAGE_TAG --namespace=default
+      - kubectl set image deployment/$K8S_FRONTEND_DEPLOYMENT $K8S_FRONTEND_CONTAINER_NAME=$FRONTEND_URI:$IMAGE_TAG --namespace=myapp
       
       - echo "¡Pipeline completado exitosamente! ✅"
+
