@@ -34,4 +34,6 @@
 
 pre_build:
   commands:
-    - echo "Ejecutando pre-build..."  # opcional, solo para log
+    - echo "Ejecutando pre-build..."
+    - aws --version
+    - aws ecr get-login-password --region $AWS_REGION_MARCO | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID_MARCO.dkr.ecr.$AWS_REGION_MARCO.amazonaws.com
