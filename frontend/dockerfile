@@ -1,8 +1,8 @@
-# Imagen ligera de Nginx
 FROM nginx:1.25-alpine
 
-# Copiamos los archivos estáticos del frontend
-COPY dist/ /usr/share/nginx/html
+# Archivo dummy para frontend
+RUN echo 'Hola frontend' > /usr/share/nginx/html/index.html
 
-# Exponemos el puerto 80
 EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

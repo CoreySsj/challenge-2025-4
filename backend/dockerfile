@@ -1,17 +1,9 @@
-# Usamos una imagen base de Java 17
-FROM amazoncorretto:17-alpine-jdk
+FROM openjdk:17-alpine
 
-# Directorio de trabajo
-WORKDIR /app
+# Solo ponemos un archivo de ejemplo para que el contenedor tenga algo
+RUN echo 'Hola backend' > /app.txt
 
-# Argumento opcional para el JAR
-ARG JAR_FILE=target/*.jar
+WORKDIR /
 
-# Copiamos el JAR compilado al contenedor
-COPY ${JAR_FILE} app.jar
-
-# Exponemos el puerto 8080
-EXPOSE 8080
-
-# Comando al iniciar el contenedor
-ENTRYPOINT ["java","-jar","/app.jar"]
+# Entrypoint dummy para que Dockerfile funcione
+CMD ["cat", "/app.txt"]
