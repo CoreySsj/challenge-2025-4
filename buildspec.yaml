@@ -1,28 +1,17 @@
 ---
 version: 0.2
 
-env:
-  variables:
-    # Estas se definen en CodeBuild, solo aquí para referencia
-    AWS_ACCOUNT_ID_MARCO: "711387135481"
-    AWS_REGION_MARCO: "us-east-1"
-    ECR_BACKEND_REPO: "usermgmt-marco"
-    ECR_FRONTEND_REPO: "usermgmt-marco-frontend"
-    EKS_CLUSTER_NAME: "mycluster"
-
 phases:
   pre_build:
     commands:
       - echo "Ejecutando script de pre-build..."
       - chmod +x prebuild.sh
       - ./prebuild.sh
-      - echo "Generando URIs e IMAGE_TAG..."
+      # Generamos las variables de entorno para Docker
       - export BACKEND_URI=$AWS_ACCOUNT_ID_MARCO.dkr.ecr.$AWS_REGION_MARCO.amazonaws.com/$ECR_BACKEND_REPO
       - export FRONTEND_URI=$AWS_ACCOUNT_ID_MARCO.dkr.ecr.$AWS_REGION_MARCO.amazonaws.com/$ECR_FRONTEND_REPO
       - export IMAGE_TAG=$(echo $CODEBUILD_BUILD_ID | cut -d: -f2 | cut -c1-7)
-      - echo "BACKEND_URI=$BACKEND_URI"
-      - echo "FRONTEND_URI=$FRONTEND_URI"
-      - echo "IMAGE_TAG=$IMAGE_TAG"
+      - echo "BACKEND_URI=$BACKEND_URI, FRONTEND_URI=$FRONTEND_URI, IMAGE_TAG=$IMAGE_TAG"
 
   build:
     commands:
