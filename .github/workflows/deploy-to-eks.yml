@@ -2,7 +2,6 @@
 
 name: Build and Deploy to EKS
 
-# Disparador: se activa cuando haces push a tu rama
 on:
   push:
     branches:
@@ -13,33 +12,19 @@ jobs:
     name: Build and Deploy
     runs-on: ubuntu-latest
     permissions:
-      id-token: write # Permiso para que GitHub se comunique con AWS
+      id-token: write
       contents: read
 
     steps:
-      # 1. Configurar las credenciales de AWS
-      # Usa OpenID Connect para una autenticación segura sin claves de acceso
+      # 1. Configura las credenciales de AWS de forma segura
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID_MARCO }}:role/GitHubAction-AssumeRole-For-CodeBuild # <-- Reemplaza con el ARN del rol de IAM que crearás
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID_MARCO }}:role/GitHubAction-AssumeRole-For-CodeBuild
           aws-region: ${{ secrets.AWS_REGION_MARCO }}
 
-      # 2. Iniciar el proceso de compilación en AWS CodeBuild
+      # 2. Inicia el proceso de compilación en AWS CodeBuild
       - name: Start AWS CodeBuild project
         uses: aws-actions/aws-codebuild-run-build@v1
         with:
-          project-name: nombre-de-tu-proyecto-codebuild # <-- Reemplaza con el nombre de tu proyecto de CodeBuild
-            environment-variables-override: |
-                [
-                {
-                    "name": "AWS_ACCOUNT_ID",
-                    "value": "${{ secrets.AWS_ACCOUNT_ID_MARCO }}",
-                    "type": "PLAINTEXT"
-                },
-                {
-                    "name": "AWS_REGION",
-                    "value": "${{ secrets.AWS_REGION_MARCO }}",
-                    "type": "PLAINTEXT"
-                }
-                ]
+          project-name: codebuild-usermgmt-build-marco
