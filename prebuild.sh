@@ -19,6 +19,7 @@ echo "DEBUG: AWS_ACCOUNT_ID_MARCO = '$AWS_ACCOUNT_ID_MARCO'"
 echo "DEBUG: AWS_REGION_MARCO = '$AWS_REGION_MARCO'"
 echo "DEBUG: BACKEND_URI = '$BACKEND_URI'"
 echo "DEBUG: FRONTEND_URI = '$FRONTEND_URI'"
+echo "DEBUG: IMAGE_TAG = '$IMAGE_TAG'"
 
 echo "Iniciando sesión en Amazon ECR..."
 aws ecr get-login-password --region $AWS_REGION_MARCO | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID_MARCO.dkr.ecr.$AWS_REGION_MARCO.amazonaws.com
