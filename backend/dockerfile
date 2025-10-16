@@ -10,5 +10,5 @@ COPY ${JAR_FILE} app.jar
 # Exponemos el puerto 8080, que es el puerto por defecto de Spring Boot
 EXPOSE 8080
 
-# Comando que se ejecutará cuando el contenedor inicie
+# je Comando que se ejecutará cuando el contenedor inicie
 ENTRYPOINT ["java","-jar","/app.jar"]
