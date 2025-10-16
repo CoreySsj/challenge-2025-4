@@ -1,6 +1,8 @@
 ---
 version: 0.2
-
+variables:
+    AWS_ACCOUNT_ID_MARCO: "711387135481"
+    AWS_REGION_MARCO: "us-east-1"
 phases:
   pre_build:
     commands:
