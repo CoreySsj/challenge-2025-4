@@ -10,16 +10,10 @@ phases:
 
   build:
     commands:
-      - echo "Compilando el backend de Spring Boot con Maven..."
-      - cd backend
-      - mvn clean package
-      - echo "Construyendo la imagen Docker del backend..."
-      - docker build -t $BACKEND_URI:$IMAGE_TAG -f dockerfile .
-      - cd ..
-      - echo "Construyendo la imagen Docker del frontend..."
-      - cd frontend
-      - docker build -t $FRONTEND_URI:$IMAGE_TAG -f dockerfile .
-      - cd ..
+      - echo "Construyendo la imagen del backend..."
+      - docker build -t $BACKEND_URI:$IMAGE_TAG ./backend
+      - echo "Construyendo la imagen del frontend..."
+      - docker build -t $FRONTEND_URI:$IMAGE_TAG ./frontend
 
   post_build:
     commands:
@@ -27,8 +21,4 @@ phases:
       - docker push $BACKEND_URI:$IMAGE_TAG
       - echo "Subiendo la imagen del frontend a ECR..."
       - docker push $FRONTEND_URI:$IMAGE_TAG
-      - echo "Actualizando el despliegue del backend en EKS..."
-      - kubectl set image deployment/$K8S_BACKEND_DEPLOYMENT $K8S_BACKEND_CONTAINER_NAME=$BACKEND_URI:$IMAGE_TAG --namespace=myapp
-      - echo "Actualizando el despliegue del frontend en EKS..."
-      - kubectl set image deployment/$K8S_FRONTEND_DEPLOYMENT $K8S_FRONTEND_CONTAINER_NAME=$FRONTEND_URI:$IMAGE_TAG --namespace=myapp
-      - echo "¡Pipeline completado exitosamente! ✅"
+
