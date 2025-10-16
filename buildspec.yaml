@@ -7,11 +7,6 @@ phases:
       - echo "Ejecutando script de pre-build..."
       - chmod +x prebuild.sh
       - ./prebuild.sh
-      # Generamos las variables de entorno para Docker
-      - export BACKEND_URI=$AWS_ACCOUNT_ID_MARCO.dkr.ecr.$AWS_REGION_MARCO.amazonaws.com/$ECR_BACKEND_REPO
-      - export FRONTEND_URI=$AWS_ACCOUNT_ID_MARCO.dkr.ecr.$AWS_REGION_MARCO.amazonaws.com/$ECR_FRONTEND_REPO
-      - export IMAGE_TAG=$(echo $CODEBUILD_BUILD_ID | cut -d: -f2 | cut -c1-7)
-      - echo "BACKEND_URI=$BACKEND_URI, FRONTEND_URI=$FRONTEND_URI, IMAGE_TAG=$IMAGE_TAG"
 
   build:
     commands:
